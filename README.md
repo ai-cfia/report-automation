@@ -40,6 +40,12 @@ You will see the following interface:
 1. When you finish writing your report click on the `Generate Report` button and
    it will generate a markdown report for you based on the `REPORT_TEMPLATE.md`.
 
+## Contribution :pencil2:
+
+To contribute to this repository follow our [Contributing
+Guide](https://github.com/ai-cfia/.github/blob/main/profile/CONTRIBUTING.md)
+rules and norms.
+
 ## Possible Improvement :paperclip:
 
 This script was done to help developer quickly write their biweekly report and
