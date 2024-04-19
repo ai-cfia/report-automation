@@ -27,7 +27,7 @@ python report_script.py
 
 You will see the following interface:
 
-![Script Interface]() <!--Insert image here-->
+![Script Interface](https://github.com/ai-cfia/report-automation/assets/96267006/27872abb-560c-4e37-988f-6af89a63974f)
 
 1. The right component allows you to add `.tsv` files. - Those files usually are
   the current iteration that is ending and the milestones you want to showcase.
