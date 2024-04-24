@@ -36,7 +36,7 @@ You will see the following interface:
   Iteration)
    - ![get tsv example](img/import-tsv.gif)
 
-1. The left component lets you enter important information such as `Product`.
+1. The left component lets you enter important information such as `Product`,
    `Author` (your name), `Iteration Date` (see image below for example), and the
    `Milestones` you are working on.
    - ![image](https://github.com/ai-cfia/report-automation/assets/96267006/6b89baad-6c6c-4c3b-b944-ac4f889ea17c)
@@ -45,6 +45,13 @@ You will see the following interface:
 1. When you finish writing your report click on the `Generate Report` button and
    it will generate a markdown report for you based on the `REPORT_TEMPLATE.md`.
    The report will be saved under `reports` folder.
+
+### Specificity
+
+- If your project doesn't have **Milestone**, just leave the field empty, and
+  the report won't generate a section for **Milestone**.
+- The `reports` folder is not push on the GitHub repository, but will be created
+  the first time you use the script.
 
 ## Contribution :pencil2:
 
