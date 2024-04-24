@@ -1,5 +1,7 @@
 import os
 import shutil
+import re
+
 import pandas as pd
 import tkinter as tk
 
@@ -9,7 +11,7 @@ from datetime import date
 
 """
 Keys in the template:
-
+- product
 - name
 - date
 - iteration_date
@@ -20,9 +22,22 @@ Keys in the template:
 - text
 """
 
-def generate_markdown(template_path: str, output_path: str, directory: str, **kwargs):
+def find_all_keys(template_path: str) -> list:
+    regex = re.compile(r"\{\{.*?\}\}")
+
+    with open(template_path, 'r') as file:
+        lines = file.readlines()
+
+    return [
+        regex.findall(line)[0].replace("{{", "").replace("}}", "")
+        for line in lines
+        if regex.findall(line) !=[]
+    ]
+
+def generate_markdown(template_path: str, output_name: str, directory: str, **kwargs):
 
     charts, markdown_table = prepare_file_for_report(directory)
+    output_path = f"reports/{output_name}"
 
     kwargs.update(markdown_table)
     kwargs.update(charts)
@@ -32,6 +47,9 @@ def generate_markdown(template_path: str, output_path: str, directory: str, **kw
 
     for key, value in kwargs.items():
         content = content.replace(f'{{{{{key}}}}}', value)
+
+    if not os.path.exists("reports"):
+        os.makedirs("reports")
 
     with open(output_path, 'w') as f:
         f.write(content)
@@ -68,6 +86,7 @@ def prepare_file_for_report(directory:str):
 
 
     return (charts, markdown_table)
+
 
 def start_programm():
     def find_widgets(frame, widget=tk.Entry):
@@ -121,13 +140,11 @@ def start_programm():
         child_frame = bottom_frame.winfo_children()
         text = child_frame[0]
 
-        keys = {
-            "name": entries[0].get(),
+        keys = {e.winfo_name(): e.get() for e in entries}
+        keys.update({
             "date": date.today().strftime("%Y-%m-%d"),
-            "iteration_date": entries[1].get(),
-            "milestone": entries[2].get(),
             "text": text.get("1.0", tk.END)
-        }
+        })
 
         generate_markdown("REPORT_TEMPLATE.md", f"{keys['date']}_report.md", "file_for_report", **keys)
 
@@ -144,6 +161,8 @@ def start_programm():
         ent_frame = tk.Frame(info_frame)
         ent_frame.pack(side=tk.LEFT)
 
+        lbl_product = tk.Label(lbl_frame, text="Product Name: ")
+        lbl_product.pack(side=tk.TOP, pady=5)
         lbl_author = tk.Label(lbl_frame, text="Author: ")
         lbl_author.pack(side=tk.TOP, pady=5)
         lbl_iteration = tk.Label(lbl_frame, text="Iteration Date: ")
@@ -151,11 +170,13 @@ def start_programm():
         lbl_milestone = tk.Label(lbl_frame, text="Milestone: ")
         lbl_milestone.pack(side=tk.TOP, pady=5)
 
-        ent_author = tk.Entry(ent_frame)
+        ent_product = tk.Entry(ent_frame, name="product")
+        ent_product.pack(side=tk.TOP, pady=5)
+        ent_author = tk.Entry(ent_frame, name="name")
         ent_author.pack(side=tk.TOP, pady=5)
-        ent_iteration = tk.Entry(ent_frame)
+        ent_iteration = tk.Entry(ent_frame, name="iteration_date")
         ent_iteration.pack(side=tk.TOP, pady=5)
-        ent_milestone = tk.Entry(ent_frame)
+        ent_milestone = tk.Entry(ent_frame, name="milestone")
         ent_milestone.pack(side=tk.TOP, pady=5)
 
     def create_file_entry_frame(directory):
@@ -164,6 +185,10 @@ def start_programm():
 
         list_box = tk.Listbox(file_frame)
         list_box.pack(side=tk.TOP, expand=True, fill=tk.BOTH)
+
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
         files = os.listdir(directory)
 

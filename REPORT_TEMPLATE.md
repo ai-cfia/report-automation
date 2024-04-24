@@ -1,4 +1,4 @@
-# Nachet Interactive Biweekly Report
+# {{product}} Biweekly Report
 
 By {{name}}
 
