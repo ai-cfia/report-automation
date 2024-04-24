@@ -34,7 +34,8 @@ You will see the following interface:
    - You can collect those files from the project views. (Example Current
   Iteration)
 1. The left component lets you enter important information such as `Author`
-   (your name), `Iteration Date`, and the `Milestones` you are working on.
+   (your name), `Iteration Date` (see image below for example), and the `Milestones` you are working on.
+   - ![image](https://github.com/ai-cfia/report-automation/assets/96267006/6b89baad-6c6c-4c3b-b944-ac4f889ea17c)
 1. Finally the last component is the text entry where you can summarize the work
    that you have done for this iteration. It supports markdown.
 1. When you finish writing your report click on the `Generate Report` button and
