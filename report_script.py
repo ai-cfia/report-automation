@@ -34,16 +34,22 @@ def find_all_keys(template_path: str) -> list:
         if regex.findall(line) !=[]
     ]
 
-def generate_markdown(template_path: str, output_name: str, directory: str, **kwargs):
+def generate_markdown(template_name: str, output_name: str, directory: str, **kwargs):
 
     charts, markdown_table = prepare_file_for_report(directory)
-    output_path = f"reports/{output_name}"
+    output_path = "reports/{}".format(output_name)
+    template_path = "templates/{}".format(template_name)
 
     kwargs.update(markdown_table)
     kwargs.update(charts)
 
-    with open(template_path, 'r') as f:
+    with open(template_path, 'r', encoding='utf-8') as f:
         content = f.read()
+
+    if kwargs.get("milestone") == "":
+        lines = content.split("\n")
+        filtered_lines = [line for line in lines if "milestone" not in line]
+        content = "\n".join(filtered_lines)
 
     for key, value in kwargs.items():
         content = content.replace(f'{{{{{key}}}}}', value)
